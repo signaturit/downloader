@@ -1,0 +1,6 @@
+.DS_Store
+node_modules
+web/css
+web/js
+web/views
+npm-debug.log
