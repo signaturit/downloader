@@ -1,0 +1,59 @@
+@import "../../node_modules/bootstrap/scss/variables";
+@import "../../node_modules/bootstrap/scss/mixins";
+
+section {
+    margin-top: 15px;
+
+    ul {
+        background-color: white;
+        border: $modal-content-border-width solid $modal-content-border-color;
+        height: 180px;
+        padding: ($grid-gutter-width-base / 3);
+        overflow-y: scroll;
+        @include border-radius($border-radius);
+
+        li {
+            line-height: 24px;
+        }
+
+        span {
+            @include text-truncate();
+        }
+
+        input {
+            margin-right: 6px;
+        }
+    }
+
+    .row {
+        bottom: ($grid-gutter-width-base / 2);
+        position: fixed;
+    }
+}
+
+#loader {
+    margin-left: 0;
+    opacity: 0;
+    animation-duration: .4s;
+    animation-name: usersFadeIn;
+    animation-fill-mode: forwards;
+
+    i {
+        z-index: 1080;
+    }
+
+    div {
+        background-color: $modal-backdrop-bg;
+        opacity: $modal-backdrop-opacity;
+    }
+}
+
+@keyframes usersFadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}

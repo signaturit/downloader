@@ -1,0 +1,22 @@
+.container.pos-f-t.w-100.h-100
+    section.row
+        .col-xs
+            form((submit)="submit()")
+                .form-group
+                    label Selecciona los usuarios ({{ numUsersSelected() }} / {{ users.length }})
+
+                    ul.list-unstyled
+                        li(*ngFor="let user of users")
+                            label
+                                input(type="checkbox", [(ngModel)]="user.selected", name="users[]")
+                                span([innerHTML]="user.nameAndEmail")
+
+                .row.w-100
+                    .col-xs
+                        button.btn.btn-primary.btn-block.text-uppercase(type=submit, [disabled]="numUsersSelected() == 0")
+                            span Continuar 
+                            i.fa.fa-arrow-right
+
+#loader.row.pos-f-t.w-100.h-100.flex-items-xs-middle.flex-items-xs-center.fade.in(*ngIf="loading")
+    i.fa.fa-circle-o-notch.fa-spin.fa-3x.text-white
+    div.pos-f-t.w-100.h-100

@@ -78,9 +78,20 @@ export class Gulpfile {
             )
     }
 
+    @Task("fonts")
+    fonts() {
+        return gulp.src("node_modules/font-awesome/fonts/*")
+            .pipe(
+                gulp.dest('./web/fonts/font-awesome')
+            )
+            .pipe(
+                livereload()
+            )
+    }
+
     @SequenceTask("build")
     build() {
-        return ["jade", "typescript", "sass"];
+        return ["jade", "typescript", "sass", "fonts"];
     }
 
     @Task("watch", ["build"])

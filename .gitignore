@@ -1,6 +1,7 @@
 .DS_Store
 node_modules
 web/css
+web/fonts
 web/js
 web/views
 npm-debug.log

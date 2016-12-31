@@ -1,0 +1,21 @@
+.container.pos-f-t.w-100.h-100
+    .text-xs-center
+        img.img-fluid(src="../img/logo.png")
+
+    section.row.h-100
+        .col-xs
+
+            form((submit)="submit()")
+                .form-group
+                    label Escribe la API KEY del administrador
+                    input.form-control([(ngModel)]="token", name="token")
+
+                .row.w-100
+                    .col-xs
+                        button.btn.btn-primary.btn-block.text-uppercase(type=submit)
+                            span Continuar 
+                            i.fa.fa-arrow-right
+
+#loader.row.pos-f-t.w-100.h-100.flex-items-xs-middle.flex-items-xs-center.fade(*ngIf="loading")
+    i.fa.fa-circle-o-notch.fa-spin.fa-3x.text-white
+    div.pos-f-t.w-100.h-100

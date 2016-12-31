@@ -9,6 +9,9 @@ System.config({
         // our app is within the app folder
         app: '../js/app',
 
+        // electron
+        "electron": "@node/electron",
+
         // angular bundles
         '@angular/core': 'npm:@angular/core/bundles/core.umd.js',
         '@angular/common': 'npm:@angular/common/bundles/common.umd.js',
@@ -20,7 +23,16 @@ System.config({
         '@angular/forms': 'npm:@angular/forms/bundles/forms.umd.js',
 
         // other libraries
-        'rxjs': 'npm:rxjs'
+        'rxjs': 'npm:rxjs',
+
+        // needed for signaturit sdk
+        "fs": "@node/fs",
+        "q": "@node/q",
+        "request": "@node/request",
+
+        // other
+        "fs-extra": "@node/fs-extra",
+        "path": "@node/path"
     },
     // packages tells the System loader how to load when no filename and/or no extension
     packages: {
@@ -32,4 +44,4 @@ System.config({
             defaultExtension: 'js'
         }
     }
-});
+})

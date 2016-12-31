@@ -1,0 +1,84 @@
+@import "../../node_modules/bootstrap/scss/variables";
+@import "../../node_modules/bootstrap/scss/mixins";
+
+section {
+    margin-top: 15px;
+
+    div {
+        margin-bottom: .5rem;
+        @include text-truncate();
+    }
+
+    ul {
+        background-color: white;
+        border: $modal-content-border-width solid $modal-content-border-color;
+        height: 224px;
+        padding: ($grid-gutter-width-base / 3);
+        overflow-y: scroll;
+        @include border-radius($border-radius);
+
+        &.animate {
+            animation-duration: .4s;
+            animation-name: filesHeightDecrement;
+            animation-fill-mode: forwards;
+        }
+
+        li {
+            line-height: 24px;
+            @include text-truncate();
+
+            i {
+                margin-right: 4px;
+            }
+        }
+    }
+
+    .row {
+        position: fixed;
+    }
+}
+
+progress,
+p {
+    height: 2rem;
+    line-height: 2rem;
+    margin-bottom: 2rem;
+}
+
+#loader {
+    margin-left: 0;
+
+    opacity: 0;
+    animation-duration: .4s;
+    animation-name: filesFadeIn;
+    animation-fill-mode: forwards;
+
+    i {
+        z-index: 1080;
+    }
+
+    div {
+        background-color: $modal-backdrop-bg;
+        opacity: $modal-backdrop-opacity;
+    }
+}
+
+@keyframes filesFadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes filesHeightDecrement {
+    from {
+        height: 224px;
+    }
+
+    to {
+        height: 180px;
+    }
+}

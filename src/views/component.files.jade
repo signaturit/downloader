@@ -1,0 +1,22 @@
+.container.pos-f-t.w-100.h-100
+    section.row
+        .col-xs
+            div Descargando {{ downloaded.length }} / {{ files.length }} documentos en 
+                span.text-muted {{ path }}
+
+            ul.list-unstyled([ngClass]="{ 'animate': files.length > 0 }")
+                li(*ngFor="let file of downloaded")
+                    i.fa.fa-circle-o-notch.fa-spin(*ngIf="file.status == 'downloading'")
+                    i.fa.fa-check-circle-o(*ngIf="file.status == 'downloaded'")
+                    i.fa.fa-times(*ngIf="file.status == 'error'")
+                    span([ngClass]="{ 'text-muted': file.status == 'downloaded', 'text-danger': file.status == 'error' }") .../{{ file.location }}
+
+    .row()
+        .col-xs
+            progress.progress.progress-striped.progress-animated(*ngIf="downloaded.length < files.length", value="{{ downloaded.length }}", max="{{ files.length }}")
+
+            p(*ngIf="downloaded.length == files.length").text-white.bg-primary.text-xs-center.font-weight-bold {{ stats }}
+
+#loader.row.pos-f-t.w-100.h-100.flex-items-xs-middle.flex-items-xs-center.fade.in(*ngIf="loading")
+    i.fa.fa-circle-o-notch.fa-spin.fa-3x.text-white
+    div.pos-f-t.w-100.h-100

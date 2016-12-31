@@ -1,0 +1,42 @@
+@import "../../node_modules/bootstrap/scss/variables";
+
+img {
+    margin-top: 32px;
+    margin-bottom: 24px;
+    width: 180px;
+}
+
+section {
+
+    .row {
+        bottom: ($grid-gutter-width-base / 2);
+        position: fixed;
+    }
+}
+
+#loader {
+    margin-left: 0;
+    opacity: 0;
+    animation-duration: .4s;
+    animation-name: tokenFadeIn;
+    animation-fill-mode: forwards;
+
+    i {
+        z-index: 1080;
+    }
+
+    div {
+        background-color: $modal-backdrop-bg;
+        opacity: $modal-backdrop-opacity;
+    }
+}
+
+@keyframes tokenFadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
