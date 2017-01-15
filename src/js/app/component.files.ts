@@ -25,44 +25,56 @@ export class FilesComponent {
 	stats: string = ''
 
 	constructor(private zone: NgZone, private router: Router, private route: ActivatedRoute, private signaturitService: SignaturitService) {
-		route.params.subscribe((params) => { this.init(params) })
+		route.params.subscribe(params => { this.init(params) })
 	}
 
 	private init (params: Object) {
+		let token      = localStorage.getItem('token')
+		let production = localStorage.getItem('environment') == 'production'
+
 		this.loading = true
 
     	this.path = params['path']
+		let ids   = params['users'].split(',')
 
-		let ids = params['users'].split(',')
-
-		this.signaturitService.getUsers(users => {
+		this.signaturitService.getUsers(token, production, users => {
 			this.users = users.filter(user => {
 				return ids.indexOf(user.id) >= 0
 			}).map(user => {
-				return new User(user)
+				return new User(user.token, production, user.id, user.email, user.name)
 			})
 
-			if (this.files.length) {
-				this.download()
-			}
-		}, response => {
-			dialog.showErrorBox('Error de conexión', 'Parece que tienes problemas con la conexión a internet. Inténtalo de nuevo más tarde. Si el problema persiste, escríbenos a soporte@signaturit.com.')
-		})
-
-		this.signaturitService.getSignedFiles(files => {
-			this.files = files.slice(0, 2)
-
-			this.loading = false
-
-			if (this.users.length) {
-				this.download()
-			}
+			this.getFiles()
 		}, response => {
 			dialog.showErrorBox('Error de conexión', 'Parece que tienes problemas con la conexión a internet. Inténtalo de nuevo más tarde. Si el problema persiste, escríbenos a soporte@signaturit.com.')
 		})
 	}
 
-	private download () {
+	private getFiles () {
+		let fn = (index: number) => {
+			if (index == this.users.length) {
+				this.zone.run(() => {
+					this.loading = false
+				})
+
+				this.downloadFiles()
+			} else {
+				let user = this.users[index]
+
+				this.signaturitService.getSignedFiles(user, files => {
+					Array.prototype.push.apply(this.files, files)
+
+					fn(index + 1)
+				}, response => {
+					dialog.showErrorBox('Error de conexión', 'Parece que tienes problemas con la conexión a internet. Inténtalo de nuevo más tarde. Si el problema persiste, escríbenos a soporte@signaturit.com.')
+				})
+			}
+		}
+
+		fn(0)
+	}
+
+	private downloadFiles () {
 		let fn = (index: number) => {
 			if (this.files.length > index) {
 				var file = this.files[index]

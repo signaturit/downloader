@@ -26,6 +26,7 @@ System.config({
         'rxjs': 'npm:rxjs',
 
         // needed for signaturit sdk
+        "signaturit-sdk": "@node/signaturit-sdk",
         "fs": "@node/fs",
         "q": "@node/q",
         "request": "@node/request",

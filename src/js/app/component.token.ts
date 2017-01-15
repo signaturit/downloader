@@ -14,22 +14,32 @@ import { SignaturitService } from './service.signaturit'
 })
 
 export class TokenComponent {
-	token: string = 'NGFhOWE3MjAwNThlMjY5M2M1MzQxZjNlOTY1M2U0MzhmNTlmMWE1NzIyMTdmMGQwYTkzZDBjOTg4YzZlMGY1NA'
-	loading: boolean = false
+	token      : string  = 'NGFhOWE3MjAwNThlMjY5M2M1MzQxZjNlOTY1M2U0MzhmNTlmMWE1NzIyMTdmMGQwYTkzZDBjOTg4YzZlMGY1NA'
+	environment: string  = 'sandbox'
+	loading    : boolean = false
 
 	constructor(private router: Router, private signaturitService: SignaturitService) {
-		// left blank intentionally
+		this.token       = localStorage.getItem('token')
+		this.environment = localStorage.getItem('environment')
 	}
 
 	submit() {
+		localStorage.setItem('token', this.token)
+		localStorage.setItem('environment', this.environment)
+
+		let token      = this.token
+		let production = this.environment == 'production'
+
 		this.loading = true
 
-		this.signaturitService.setToken(this.token, false)
-
-		this.signaturitService.checkAccessToken(() => {
+		this.signaturitService.checkAccessToken(token, production, () => {
 			this.router.navigate(['users'])
 		}, response => {
-			dialog.showErrorBox('Error de conexión', 'Parece que tienes problemas con la conexión a internet. Inténtalo de nuevo más tarde. Si el problema persiste, escríbenos a soporte@signaturit.com.')
+			if (response.error == 'no_admin') {
+				dialog.showErrorBox('Error de token', 'El token debe ser de un administrador.')
+			} else {
+				dialog.showErrorBox('Error de conexión', 'Parece que tienes problemas con la conexión a internet. Inténtalo de nuevo más tarde. Si el problema persiste, escríbenos a soporte@signaturit.com.')
+			}
 		})
   	}
 }

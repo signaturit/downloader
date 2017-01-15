@@ -24,9 +24,12 @@ export class UsersComponent {
 	}
 
 	private init() {
+		let token      = localStorage.getItem('token')
+		let production = localStorage.getItem('environment') == 'production'
+
 		this.loading = true
 
-		this.signaturitService.getUsers(users => {
+		this.signaturitService.getUsers(token, production, users => {
 			this.zone.run(() => {
 				this.users = users
 

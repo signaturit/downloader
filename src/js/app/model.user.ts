@@ -1,14 +1,18 @@
 export class User {
-    public id: string
-    public email: string
-    public name: string
-    public selected: boolean
+    public token     : string
+    public production: boolean
+    public id        : string
+    public email     : string
+    public name      : string
+    public selected  : boolean
 
-    constructor(private data: any) {
-        this.id       = data.id
-        this.email    = data.email
-        this.name     = data.name
-        this.selected = false
+    constructor(token: string, production: boolean, id: string, email: string, name: string) {
+        this.token      = token
+        this.production = production
+        this.id         = id
+        this.email      = email
+        this.name       = name
+        this.selected   = false
     }
 
     get nameAndEmail (): string {

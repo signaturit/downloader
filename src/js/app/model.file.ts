@@ -1,20 +1,31 @@
-export class File {
-    public signatureId: string
-    public documentId: string
-    public name: string
-    public signer: string
-    public status: string
-    public createdAt: Date
+import { User } from './model.user'
 
-    constructor(private signature: any, private document: any) {
-        this.signatureId = signature.id
-        this.documentId  = document.id
-        this.name        = document.file.name
-        this.signer      = document.name
-        this.createdAt   = new Date(signature.created_at)
+export class File {
+    public user     : User
+    public signature: any
+    public document : any
+    public status   : string
+
+    constructor(user: User, signature: any, document: any) {
+        this.user      = user
+        this.signature = signature
+        this.document  = document
     }
 
     get location (): string {
-        return `${this.signatureId}/${this.documentId}/${this.name}`
+        return `${this.user.email}/${this.createdAt}/${this.document.file.name}`
+    }
+
+    get createdAt (): string {
+        let fn = (num: number) => {
+            return num > 9 ? num : `0${num}`
+        }
+
+        let d     = new Date(this.signature.created_at)
+        let day   = fn(d.getDate())
+        let month = fn(d.getMonth() + 1)
+        let year  = d.getFullYear()
+
+        return `${day}-${month}-${year}`
     }
 }
