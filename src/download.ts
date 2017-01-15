@@ -1,4 +1,5 @@
-// npm run download admin_token production/sandbox emails/all destination_path
+// npm run download:log admin_token production/sandbox emails/all destination_path
+// npm run download:progress admin_token production/sandbox emails/all destination_path
 
 // require libs
 let ProgressBar = require('progress')
@@ -16,12 +17,13 @@ import { File } from './js/app/model.file'
 import { User } from './js/app/model.user'
 
 // prepare arguments
-var tokenValue, environmentValue, usersValue, destinationValue
+var tokenValue, environmentValue, usersValue, destinationValue, progressValue
 
 // create the program
 program
     .description('Download all the signed files')
     .arguments('<token> <environment> <users> <destination>')
+    .option('-p --progress <progress>', 'Progress type')
     .action(
         (token, environment, users, destination) => {
             // tokenValue       = token
@@ -37,7 +39,10 @@ program
     )
     .parse(process.argv);
 
-// if no arguments, show help
+// get progress value
+progressValue = program.progress
+
+ // if no arguments, show help
 if (!program.args.length) {
     program.help()
 
@@ -106,19 +111,44 @@ signaturitService.getUsers(tokenValue, production, users => {
 
             let fn = (index: number) => {
                 if (index == users.length) {
-                    var bar = new ProgressBar(' downloading [:bar] :percent :etas ', { total: files.length, width: 50 })
+                    var bar = new ProgressBar(' downloading [:bar] :percent :etas :file', { total: files.length, width: 50 })
 
                     let fn = (index: number) => {
                         if (files.length > index) {
                             let file = files[index]
 
+                            if (progressValue == 'log') {
+                                process.stdout.write(`downloading file ${file.location}... `)
+                            }
+
                             signaturitService.downloadFile(file, destinationValue, response => {
-                                bar.tick()
+                                if (progressValue == 'log') {
+                                    process.stdout.write(
+                                        chalk.green('done!\n')
+                                    )
+                                }
+
+                                if (progressValue == 'bar') {
+                                    bar.tick({
+                                        file: chalk.green(file.location)
+                                    })
+                                }
 
                                 fn(index + 1)
                             }, response => {
-                                bar.interrupt('interrupt: current progress is ' + bar.curr + '/' + bar.total);
-                                // error
+                                if (progressValue == 'log') {
+                                    process.stdout.write(
+                                        chalk.red('error!\n')
+                                    )
+                                }
+
+                                if (progressValue == 'bar') {
+                                    bar.tick({
+                                        file: chalk.red(`error downloading ${file.location}`)
+                                    })
+                                }
+
+                                fn(index + 1)
                             })
                         }
                     }
