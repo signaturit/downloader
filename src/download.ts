@@ -111,14 +111,14 @@ signaturitService.getUsers(tokenValue, production, users => {
 
             let fn = (index: number) => {
                 if (index == users.length) {
-                    var bar = new ProgressBar(' downloading [:bar] :percent :etas :file', { total: files.length, width: 50 })
+                    var bar = new ProgressBar(' downloading [:bar] :percent (:current/:total) :etas :file', { total: files.length, width: 50 })
 
                     let fn = (index: number) => {
                         if (files.length > index) {
                             let file = files[index]
 
                             if (progressValue == 'log') {
-                                process.stdout.write(`downloading file ${file.location}... `)
+                                process.stdout.write(`downloading file ${index + 1} / ${files.length} - ${file.location}... `)
                             }
 
                             signaturitService.downloadFile(file, destinationValue, response => {
