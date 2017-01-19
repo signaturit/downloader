@@ -8,8 +8,9 @@
                 li(*ngFor="let file of downloaded")
                     i.fa.fa-circle-o-notch.fa-spin(*ngIf="file.status == 'downloading'")
                     i.fa.fa-check-circle-o(*ngIf="file.status == 'downloaded'")
+                    i.fa.fa-check-circle-o(*ngIf="file.status == 'skipped'")
                     i.fa.fa-times(*ngIf="file.status == 'error'")
-                    span([ngClass]="{ 'text-muted': file.status == 'downloaded', 'text-danger': file.status == 'error' }") .../{{ file.location }}
+                    span([ngClass]="{ 'text-muted': file.status == 'skipped', 'text-danger': file.status == 'error' }") .../{{ file.location }}
 
     .row
         .col

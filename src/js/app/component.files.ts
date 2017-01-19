@@ -85,9 +85,13 @@ export class FilesComponent {
 					this.downloaded.unshift(file)
 				})
 
-				this.signaturitService.downloadFile(file, this.path, response => {
+				this.signaturitService.downloadFile(file, this.path, (response, isNewFile) => {
 					this.zone.run(() => {
-						file.status = 'downloaded'
+						if (isNewFile) {
+							file.status = 'downloaded'
+						} else {
+							file.status = 'skipped'
+						}
 					})
 
 					fn(index + 1)
@@ -98,10 +102,11 @@ export class FilesComponent {
 				})
 			} else {
 				let error      = this.downloaded.filter(file => { return file.status == 'error' }).length
-				let downloaded = this.downloaded.length - error
+				let skipped    = this.downloaded.filter(file => { return file.status == 'skipped' }).length
+				let downloaded = this.downloaded.length - error - skipped
 
 				this.zone.run(() => {
-					this.stats = `${downloaded} archivos descargado/s, ${error} error/es`
+					this.stats = `${downloaded} archivos descargado/s, ${skipped} ignorado/s, ${error} error/es`
 				})
 			}
 		}

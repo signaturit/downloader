@@ -81,7 +81,7 @@ export class SignaturitService {
         var filePath = `${basePath}/${file.location}`
 
         if (fs.existsSync(filePath)) {
-            fnSuccess(filePath)
+            fnSuccess(filePath, false)
         } else {
             client.downloadSignedDocument(file.signature.id, file.document.id).then(response => {
                 var dir = path.dirname(filePath)
@@ -107,7 +107,7 @@ export class SignaturitService {
                         })
 
                         stream.end(() => {
-                            fnSuccess(filePath)
+                            fnSuccess(filePath, true)
                         })
                     }
                 })
