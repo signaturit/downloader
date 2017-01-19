@@ -7,7 +7,7 @@ declare var process: NodeJS.Process
 let win
 
 let createWindow = () => {
-    win = new BrowserWindow({ width: 400, height: 300, maxWidth: 400, maxHeight: 300, minWidth: 400, minHeight: 300 })
+    win = new BrowserWindow({ width: 400, height: process.platform == 'darwin' ? 300 : 340, maxWidth: 400, maxHeight: 300, minWidth: 400, minHeight: 300 })
 
     win.loadURL(`file://${__dirname}/../views/index.html`)
 
