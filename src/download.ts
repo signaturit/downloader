@@ -26,15 +26,10 @@ program
     .option('-p --progress <progress>', 'Progress type')
     .action(
         (token, environment, users, destination) => {
-            // tokenValue       = token
-            // environmentValue = environment
-            // usersValue       = users
-            // destinationValue = destination
-
-            tokenValue       = 'NGFhOWE3MjAwNThlMjY5M2M1MzQxZjNlOTY1M2U0MzhmNTlmMWE1NzIyMTdmMGQwYTkzZDBjOTg4YzZlMGY1NA'
-            environmentValue = 'sandbox'
-            usersValue       = 'all'
-            destinationValue = '/Users/javier/Desktop/fcb'
+            tokenValue       = token
+            environmentValue = environment
+            usersValue       = users
+            destinationValue = destination
         }
     )
     .parse(process.argv);

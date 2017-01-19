@@ -14,13 +14,22 @@ import { SignaturitService } from './service.signaturit'
 })
 
 export class TokenComponent {
-	token      : string  = 'NGFhOWE3MjAwNThlMjY5M2M1MzQxZjNlOTY1M2U0MzhmNTlmMWE1NzIyMTdmMGQwYTkzZDBjOTg4YzZlMGY1NA'
-	environment: string  = 'sandbox'
+	token      : string
+	environment: string
 	loading    : boolean = false
 
 	constructor(private router: Router, private signaturitService: SignaturitService) {
-		this.token       = localStorage.getItem('token')
+		this.token = localStorage.getItem('token')
+
+		if (!this.token) {
+			this.token = ''
+		}
+
 		this.environment = localStorage.getItem('environment')
+
+		if (!this.environment) {
+			this.environment = 'production'
+		}
 	}
 
 	submit() {
