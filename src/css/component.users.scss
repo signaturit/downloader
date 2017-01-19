@@ -9,14 +9,12 @@ section {
         border: $modal-content-border-width solid $modal-content-border-color;
         height: 180px;
         padding: ($grid-gutter-width-base / 3);
+        overflow-x: hidden;
         overflow-y: scroll;
         @include border-radius($border-radius);
 
-        li {
-            line-height: 24px;
-        }
-
-        span {
+        label {
+            width: 348px;
             @include text-truncate();
         }
 
@@ -39,6 +37,7 @@ section {
     animation-fill-mode: forwards;
 
     i {
+        margin: auto;
         z-index: 1080;
     }
 

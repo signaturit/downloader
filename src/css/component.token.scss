@@ -7,7 +7,6 @@ img {
 }
 
 section {
-
     .row {
         bottom: ($grid-gutter-width-base / 2);
         position: fixed;
@@ -22,6 +21,7 @@ section {
     animation-fill-mode: forwards;
 
     i {
+        margin: auto;
         z-index: 1080;
     }
 

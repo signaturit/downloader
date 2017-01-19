@@ -1,6 +1,6 @@
-.container.pos-f-t.w-100.h-100
+.container.fixed-top.w-100.h-100
     section.row
-        .col-xs
+        .col
             div Descargando {{ downloaded.length }} / {{ files.length }} documentos en 
                 span.text-muted {{ path }}
 
@@ -11,12 +11,13 @@
                     i.fa.fa-times(*ngIf="file.status == 'error'")
                     span([ngClass]="{ 'text-muted': file.status == 'downloaded', 'text-danger': file.status == 'error' }") .../{{ file.location }}
 
-    .row()
-        .col-xs
-            progress.progress.progress-striped.progress-animated(*ngIf="downloaded.length < files.length", value="{{ downloaded.length }}", max="{{ files.length }}")
+    .row
+        .col
+            .progress(*ngIf="downloaded.length < files.length")
+                .progress-bar.progress-bar-striped.progress-bar-animated([ngStyle]="{ 'width': (downloaded.length * 100 / files.length) + '%'}")
 
-            p(*ngIf="downloaded.length == files.length").text-white.bg-primary.text-xs-center.font-weight-bold {{ stats }}
+            p(*ngIf="downloaded.length == files.length").text-white.bg-primary.text-center.font-weight-bold {{ stats }}
 
-#loader.row.pos-f-t.w-100.h-100.flex-items-xs-middle.flex-items-xs-center.fade.in(*ngIf="loading")
+#loader.row.fixed-top.w-100.h-100.align-items-center.fade(*ngIf="loading")
     i.fa.fa-circle-o-notch.fa-spin.fa-3x.text-white
-    div.pos-f-t.w-100.h-100
+    div.fixed-top.w-100.h-100

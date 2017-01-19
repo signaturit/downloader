@@ -13,6 +13,7 @@ section {
         background-color: white;
         border: $modal-content-border-width solid $modal-content-border-color;
         height: 224px;
+        margin-bottom: 4px;
         padding: ($grid-gutter-width-base / 3);
         overflow-y: scroll;
         @include border-radius($border-radius);
@@ -38,11 +39,17 @@ section {
     }
 }
 
-progress,
+.progress,
 p {
-    height: 2rem;
-    line-height: 2rem;
     margin-bottom: 2rem;
+}
+
+.progress-bar {
+    height: 2rem;
+}
+
+p {
+    line-height: 2rem;
 }
 
 #loader {
@@ -54,6 +61,7 @@ p {
     animation-fill-mode: forwards;
 
     i {
+        margin: auto;
         z-index: 1080;
     }
 
