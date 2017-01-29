@@ -3,7 +3,13 @@
         .col
             form((submit)="submit()")
                 .form-group
-                    label Selecciona los usuarios ({{ numUsersSelected() }} / {{ users.length }})
+                    label
+                        span Selecciona los usuarios ({{ numUsersSelected() }} / {{ users.length }}) 
+                        span (
+                        a(href="#", (click)="selectAll($event)") Todos
+                        span  / 
+                        a(href="#", (click)="selectNone($event)") Ninguno
+                        span )
 
                     ul.list-unstyled
                         li(*ngFor="let user of users")

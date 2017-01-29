@@ -52,6 +52,26 @@ export class UsersComponent {
 		return num
 	}
 
+	public selectAll(event) {
+		event.preventDefault()
+
+		this.zone.run(() => {
+			for (let user of this.users) {
+				user.selected = true
+			}
+		})
+	}
+
+	public selectNone(event) {
+		event.preventDefault()
+
+		this.zone.run(() => {
+			for (let user of this.users) {
+				user.selected = false
+			}
+		})
+	}
+
 	public submit() {
 		let ids = this.users
 			.filter(user => { return user.selected })
