@@ -13,7 +13,9 @@ export class File {
     }
 
     get location (): string {
-        return `${this.user.email}/${this.createdAt}/${this.document.file.name}`
+        let time = this.signature.created_at.replace(/.*T(\d*):(\d*):(\d*)\+.*/, '$1$2$3')
+
+        return `${this.user.email}/${this.createdAt}/${this.document.file.name}`.replace(/\.pdf/, ` ${time}.pdf`)
     }
 
     get createdAt (): string {
