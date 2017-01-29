@@ -6,7 +6,7 @@
     "start": "gulp && electron .",
     "gulp": "gulp",
     "watch": "gulp watch",
-    "build": "electron-packager . --all out=build",
+    "build": "electron-packager . --all --out=build",
     "download:log": "ts-node src/download.ts --progress log",
     "download:progress": "ts-node src/download.ts --progress bar"
   },
