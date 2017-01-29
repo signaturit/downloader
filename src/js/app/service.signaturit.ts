@@ -53,14 +53,22 @@ export class SignaturitService {
         let fn = () => {
             client.getSignatures(limit, offset, { status: 'completed' }).then(response => {
                 for (let signature of response) {
+                    var fileIds = []
+
                     for (let document of signature.documents) {
-                        data.push(
-                            new File(user, signature, document)
-                        )
+                        var fileId = `${document.file.name}|${document.file.pages}|${document.file.size}`
+
+                        if (fileIds.indexOf(fileId) == -1) {
+                            fileIds.push(fileId)
+
+                            data.push(
+                                new File(user, signature, document)
+                            )
+                        }
                     }
                 }
-
                 offset += limit
+
 
                 if (response.length > 0) {
                     fn()
@@ -90,14 +98,6 @@ export class SignaturitService {
                     if (error) {
                         fnError(error)
                     } else {
-                        let fn = (filePath: string, index: number) => {
-                            let path = index ? filePath.replace(/\.pdf/, `-${index}.pdf`) : filePath
-
-                            return fs.existsSync(path) ? fn(filePath, index + 1) : path
-                        }
-
-                        filePath = fn(filePath, 0)
-
                         var stream = fs.createWriteStream(filePath)
 
                         stream.write(response)
