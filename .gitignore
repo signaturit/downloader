@@ -1,4 +1,5 @@
 .DS_Store
+build
 node_modules
 web/download.js
 web/css
