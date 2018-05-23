@@ -1,3 +1,4 @@
+@import "../../node_modules/bootstrap/scss/functions";
 @import "../../node_modules/bootstrap/scss/variables";
 @import "../../node_modules/bootstrap/scss/mixins";
 
@@ -8,7 +9,7 @@ section {
         background-color: white;
         border: $modal-content-border-width solid $modal-content-border-color;
         height: 180px;
-        padding: ($grid-gutter-width-base / 3);
+        padding: ($grid-gutter-width / 3);
         overflow-x: hidden;
         overflow-y: scroll;
         @include border-radius($border-radius);
@@ -24,7 +25,7 @@ section {
     }
 
     .row {
-        bottom: ($grid-gutter-width-base / 2);
+        bottom: ($grid-gutter-width / 2);
         position: fixed;
     }
 }

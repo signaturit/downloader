@@ -1,3 +1,4 @@
+@import "../../node_modules/bootstrap/scss/functions";
 @import "../../node_modules/bootstrap/scss/variables";
 
 img {
@@ -8,7 +9,7 @@ img {
 
 section {
     .row {
-        bottom: ($grid-gutter-width-base / 2);
+        bottom: ($grid-gutter-width / 2);
         position: fixed;
     }
 }
