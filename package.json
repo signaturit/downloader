@@ -1,7 +1,7 @@
 {
   "name": "Signaturit",
   "description": "Download application for Signatures",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "Signaturit",
   "repository": "https://github.com/signaturit/downloader",
   "main": "web/js/main.js",
