@@ -96,10 +96,6 @@ app.on(
 autoUpdater.on(
     'update-downloaded',
     (event, releaseNotes, releaseName) => {
-        console.log(event);
-        console.log(releaseNotes);
-        console.log(releaseName);
-
         dialog.showMessageBox(
             {
                 type: 'information',
