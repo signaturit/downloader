@@ -1,120 +1,124 @@
-import { Injectable } from '@angular/core'
+import {Injectable} from '@angular/core'
 
-import { File } from './model.file'
-import { User } from './model.user'
+import {File} from './model.file'
+import {User} from './model.user'
 
 import * as SignaturitClient from 'signaturit-sdk'
 
-var fs   = require('fs-extra')
-var path = require('path')
+const fs   = require('fs-extra');
+const path = require('path');
 
 @Injectable()
 export class SignaturitService {
-    public checkAccessToken (token: string, production: boolean, fnSuccess, fnError) {
-        let client = new SignaturitClient(token, production)
+    public checkAccessToken(token: string, production: boolean, fnSuccess, fnError) {
+        let client = new SignaturitClient(token, production);
 
-        return client.getUsers().then(users => {
-            if (users[0].token) {
-                fnSuccess()
-            } else {
-                fnError({ error: 'no_admin' })
-            }
-        }, response => {
-            fnError(response)
-        })
+        return client.getUsers().then(
+            users => {
+                if (users[0].token) {
+                    fnSuccess()
+                } else {
+                    fnError({error: 'no_admin'})
+                }
+            },
+            response => fnError(response)
+        )
     }
 
-    public getUsers (token: string, production: boolean, fnSuccess, fnError) {
-        let client = new SignaturitClient(token, production)
+    public getUsers(token: string, production: boolean, fnSuccess, fnError) {
+        let client = new SignaturitClient(token, production);
 
-        var data: Array<User> = []
+        let data: Array<User> = [];
 
-        client.getUsers().then(response => {
-            for (let obj of response) {
-                data.push(
-                    new User(obj.token, production, obj.id, obj.email, obj.name)
-                )
-            }
+        client.getUsers().then(
+            response => {
+                for (let obj of response) {
+                    data.push(
+                        new User(obj.token, production, obj.id, obj.email, obj.name)
+                    )
+                }
 
-            fnSuccess(data)
-        }, response => {
-            fnError(response)
-        })
+                fnSuccess(data)
+            },
+            response => fnError(response)
+        )
     }
 
-    public getSignedFiles (user: User, fnSuccess, fnError) {
-        let client = new SignaturitClient(user.token, user.production)
+    public getSignedFiles(user: User, fnSuccess, fnError) {
+        let client = new SignaturitClient(user.token, user.production);
 
-        var data: Array<Object> = []
+        let data: Array<Object> = [];
 
-        var limit  = 100
-        var offset = 0
+        let limit  = 100;
+        let offset = 0;
 
         let fn = () => {
-            client.getSignatures(limit, offset, { status: 'completed' }).then(response => {
-                for (let signature of response) {
-                    var fileIds = []
+            client.getSignatures(limit, offset, {status: 'completed'}).then(
+                response => {
+                    for (let signature of response) {
+                        let fileIds = [];
 
-                    for (let document of signature.documents) {
-                        var fileId = `${document.file.name}|${document.file.pages}|${document.file.size}`
+                        for (let document of signature.documents) {
+                            const fileId = `${document.file.name}|${document.file.pages}|${document.file.size}`;
 
-                        if (fileIds.indexOf(fileId) == -1) {
-                            fileIds.push(fileId)
+                            if (fileIds.indexOf(fileId) == -1) {
+                                fileIds.push(fileId);
 
-                            data.push(
-                                new File(user, signature, document)
-                            )
+                                data.push(
+                                    new File(user, signature, document)
+                                )
+                            }
                         }
                     }
-                }
-                offset += limit
 
+                    offset += limit;
 
-                if (response.length > 0) {
-                    fn()
-                } else {
-                    fnSuccess(data)
-                }
-            }, response => {
-                fnError(response)
-            })
-        }
+                    if (response.length > 0) {
+                        fn()
+                    } else {
+                        fnSuccess(data)
+                    }
+                },
+                response => fnError(response)
+            )
+        };
 
         fn()
     }
 
     public downloadFile(file: File, basePath: string, fnSuccess, fnError) {
-        let client = new SignaturitClient(file.user.token, file.user.production)
+        let client = new SignaturitClient(file.user.token, file.user.production);
 
-        var filePath = `${basePath}/${file.location}`
+        const filePath = `${basePath}/${file.location}`;
 
         if (fs.existsSync(filePath)) {
             fnSuccess(filePath, false)
         } else {
-            client.downloadSignedDocument(file.signature.id, file.document.id).then(response => {
-                var dir = path.dirname(filePath)
+            client.downloadSignedDocument(file.signature.id, file.document.id).then(
+                response => {
+                    const dir = path.dirname(filePath);
 
-                fs.ensureDir(dir, error => {
-                    if (error) {
-                        fnError(error)
-                    } else {
-                        var stream = fs.createWriteStream(filePath)
-
-                        stream.write(response)
-
-                        stream.on('error', error => {
+                    fs.ensureDir(dir, error => {
+                        if (error) {
                             fnError(error)
-                        })
+                        } else {
+                            const stream = fs.createWriteStream(filePath);
 
-                        stream.end(() => {
-                            fnSuccess(filePath, true)
-                        })
-                    }
-                })
+                            stream.write(response);
 
-            }, response => {
-                fnError(response)
-            })
+                            stream.on('error', error => {
+                                fnError(error)
+                            });
+
+                            stream.end(() => {
+                                fnSuccess(filePath, true)
+                            })
+                        }
+                    })
+
+                },
+                response => fnError(response)
+            )
         }
     }
 }

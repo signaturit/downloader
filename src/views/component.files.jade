@@ -1,7 +1,7 @@
 .container.fixed-top.w-100.h-100
     section.row
         .col
-            div Descargando {{ downloaded.length }} / {{ files.length }} documentos en 
+            div Downloading {{ downloaded.length }} / {{ files.length }} documents in
                 span.text-muted {{ path }}
 
             ul.list-unstyled([ngClass]="{ 'animate': files.length > 0 }")

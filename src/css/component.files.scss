@@ -8,6 +8,10 @@ section {
     div {
         margin-bottom: .5rem;
         @include text-truncate();
+
+        .text-muted {
+            margin-left: 5px;
+        }
     }
 
     ul {

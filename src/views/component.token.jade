@@ -6,13 +6,13 @@
         .col
             form((submit)="submit()")
                 .form-group
-                    label Escribe la API KEY del administrador
+                    label Administrator API KEY
                     input.form-control([(ngModel)]="token", name="token")
 
                 .row.w-100
                     .col
                         button.btn.btn-primary.btn-block.text-uppercase(type=submit)
-                            span Continuar 
+                            span Continue
                             i.fa.fa-arrow-right
 
 #loader.row.fixed-top.w-100.h-100.align-items-center.fade(*ngIf="loading")

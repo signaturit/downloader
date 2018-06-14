@@ -45,6 +45,10 @@ $fa-font-path: "../fonts/font-awesome";
 @import "../../node_modules/font-awesome/scss/font-awesome";
 
 // custom
+button .fa-arrow-right {
+    margin-left: 5px;
+}
+
 token {
     .container {
         animation-duration: .4s;

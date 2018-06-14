@@ -1,5 +1,6 @@
 .DS_Store
-build
+.idea
+dist
 node_modules
 web/download.js
 web/css
@@ -7,3 +8,4 @@ web/fonts
 web/js
 web/views
 npm-debug.log
+yarn-error.log

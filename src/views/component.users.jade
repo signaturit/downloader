@@ -4,11 +4,11 @@
             form((submit)="submit()")
                 .form-group
                     label
-                        span Selecciona los usuarios ({{ numUsersSelected() }} / {{ users.length }}) 
+                        span Select users ({{ numUsersSelected() }} / {{ users.length }})
                         span (
-                        a(href="#", (click)="selectAll($event)") Todos
+                        a(href="#", (click)="selectAll($event)") Select all
                         span  / 
-                        a(href="#", (click)="selectNone($event)") Ninguno
+                        a(href="#", (click)="selectNone($event)") Deselect all
                         span )
 
                     ul.list-unstyled
@@ -20,7 +20,7 @@
                 .row.w-100
                     .col
                         button.btn.btn-primary.btn-block.text-uppercase(type=submit, [disabled]="numUsersSelected() == 0")
-                            span Continuar 
+                            span Continue
                             i.fa.fa-arrow-right
 
 #loader.row.fixed-top.w-100.h-100.align-items-center.fade(*ngIf="loading")
