@@ -2,6 +2,12 @@ const {app, dialog, BrowserWindow, Menu} = require('electron');
 
 const {autoUpdater} = require('electron-updater');
 
+const logger = require('electron-log');
+
+logger.transports.file.level = 'debug';
+
+autoUpdater.logger = logger;
+
 declare var __dirname: string;
 
 declare var process: NodeJS.Process;
@@ -36,18 +42,16 @@ let createWindow = () => {
         {
             label: 'Downloader',
             submenu: [
-                {label: 'About Application', selector: 'orderFrontStandardAboutPanel:'},
+                {label: 'About', selector: 'orderFrontStandardAboutPanel:'},
                 {type: 'separator'},
                 {
-                    label: 'Clear', click: () => {
-                        win.webContents.executeJavaScript('localStorage.clear(); location.reload()')
-                    }
+                    label: 'Clear',
+                    click: () => win.webContents.executeJavaScript('localStorage.clear(); location.reload()')
                 },
                 {type: 'separator'},
                 {
-                    label: 'Quit', accelerator: 'Command+Q', click: () => {
-                        app.quit()
-                    }
+                    label: 'Quit', accelerator: 'Command+Q',
+                    click: () => app.quit()
                 }
             ]
         }, {
@@ -64,9 +68,11 @@ let createWindow = () => {
         }
     ];
 
-    Menu.setApplicationMenu(
-        Menu.buildFromTemplate(template)
-    )
+    const menu = Menu.buildFromTemplate(template);
+
+    Menu.setApplicationMenu(menu);
+
+    autoUpdater.checkForUpdatesAndNotify().then(null)
 };
 
 app.on('ready', createWindow);
@@ -89,19 +95,16 @@ app.on(
     }
 );
 
-app.on(
-    'ready', () => autoUpdater.checkForUpdatesAndNotify()
-);
-
 autoUpdater.on(
     'update-downloaded',
-    (event, releaseNotes, releaseName) => {
+    () => {
         dialog.showMessageBox(
             {
-                type: 'information',
+                type: 'info',
                 buttons: ['Restart', 'Later'],
                 title: 'Application Update',
-                message: process.platform === 'win32' ? 'abc' : 'def'
+                message: 'A new version is available!',
+                detail: 'A new version is now available. Restart the application to apply the update.'
             },
             response => {
                 if (response === 0) autoUpdater.quitAndInstall()
@@ -109,3 +112,5 @@ autoUpdater.on(
         )
     }
 );
+
+autoUpdater.on('error', (error) => logger.error(error));

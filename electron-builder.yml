@@ -1,4 +1,0 @@
-appId: Signaturit
-publish:
-    provider: github
-    token: ADD_GITHUB_TOKEN_HERE
