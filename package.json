@@ -7,8 +7,8 @@
   "scripts": {
     "start": "gulp && electron .",
     "watch": "gulp watch",
-    "build": "gulp && build --mac",
-    "release": "gulp && build --mac --publish=always"
+    "build": "gulp && build --mac --win",
+    "release": "gulp && build --mac --win --publish=always"
   },
   "dependencies": {
     "@angular/forms": "2.3.0",
