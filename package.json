@@ -28,7 +28,7 @@
     "@types/core-js": "0.9.35",
     "@types/node": "6.0.52",
     "bootstrap": "^4.0.0",
-    "electron": "2.0.2",
+    "electron": "13.6.6",
     "electron-builder": "^20.15.1",
     "electron-publisher-s3": "^20.15.0",
     "font-awesome": "4.7.0",
